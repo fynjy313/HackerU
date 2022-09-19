@@ -1,0 +1,9 @@
+    server {
+      listen 80;
+      location / {
+        access_log off;
+        root /var/www/;
+        default_type "text/html";
+        try_files $uri.html $uri $uri/ =404;
+      }
+    }

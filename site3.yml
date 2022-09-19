@@ -1,0 +1,46 @@
+--- 
+- hosts: all
+  become: true      
+  tasks:
+    - name: update packadges
+      apt:
+        name: nginx
+        state: "latest"
+        update_cache: yes
+
+    - name: Copy files
+      copy:
+        src: "{{ app_root }}"
+        dest: "{{ document_root }}"
+        mode: preserve
+      tags:
+        - continue
+    
+    - name: Set config
+      copy:
+        src: "{{ nginx_conf }}"
+        dest: /etc/nginx/sites-available/default
+        mode: preserve
+      tags:
+        - continue
+      template:
+        src: "{{ nginx_conf }}"
+        dest: /etc/nginx/sites-available/default
+      notify: Restart
+      tags:
+        - continue2
+
+    - name: New site
+      file:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+      notify: Restart
+      tags:
+        - continue2
+
+  handlers:
+    - name: Restart
+      service:
+        name: nginx
+        state: restarted
