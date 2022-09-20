@@ -23,12 +23,6 @@
         mode: preserve
       tags:
         - continue
-      template:
-        src: "{{ nginx_conf }}"
-        dest: /etc/nginx/sites-available/default
-      notify: Restart
-      tags:
-        - continue2
 
     - name: New site
       file:
