@@ -294,8 +294,7 @@ public class CWE78_OS_Command_Injection__getParameter_Servlet_10 extends Abstrac
 ```
 на
 ```
-        //Safe execute:
-        ProcessBuilder pb = new ProcessBuilder(osCommand, data);
+        //Safe execute:        
         Process safeProcess = new ProcessBuilder(osCommand, data).start();
         while (true) {
             try {
